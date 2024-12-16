@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+    <h1>Payment Page</h1>
+    <div class="order-summary">
+        <h2>Order Summary</h2>
+        <ul>
+            {% for cart in carts %}
+            <li>{{ cart.name }} - ${{ cart.price }}</li>
+            {% endfor %}
+        </ul>
+        <p>Total: ${{ total_price | round(2) }}</p>
+    </div>
+    <form action="{{ url_for('create_checkout_session') }}" method="POST">
+        <button type="submit" class="btn btn-primary">Buy Now</button>
+        <a class="btn btn-danger my-3" href="{{url_for('display_cart')}}">Cancel</a>
+    </form>
+    
+{% endblock %}

@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+<p style="position: absolute; right: 62px; top: 16px;" class="nav-email">
+    <strong class="fw-bold text-dark">{{ email }}</strong>
+    <i class="fa-solid fa-user mx-2 text-success"></i>
+</p>
+ 
+
+ 
+<div class="cart-cart">
+    <!-- Title -->
+    <div class="title">
+      Cart Bag  
+      {% if carts|length != 0 %}
+        <p class="total fw-bold text-success">Total : {{ total_price | round(2)}} $</p>
+      {% endif %}
+    </div>
+
+    {% if carts|length == 0 %}
+     <p class="text-danger fw-bold m-auto empty-msg">The Cart Bag is empty <br>
+        <a class=" text-success" href="{{url_for('display_products')}}">Now Shopping</a>
+     </p>
+     
+    {% endif %}
+    <div class="container-cart">
+        <!-- Product Loop -->
+        {% for cart in carts %}
+        <div class="item" data-cart-id="{{ cart.id }}">
+            <div class="buttons">
+                <a href="{{url_for('delete_cart', cart_id=cart.id)}}">
+                    <i class="fa-solid fa-trash-can text-danger"></i>
+                </a>
+            </div>
+
+            <div class="image">
+                <img class="image-fav" src="../static/images/{{cart.photo}}" alt="" onclick="openModal(this)"/>
+            </div>
+
+            <!-- Modal for displaying the image in larger size -->
+            <div id="imageModal" class="modal" onclick="closeModal()">
+                <span class="close">
+                    <i class="fa-regular fa-circle-xmark"></i>
+                </span>
+                <img class="modal-content" id="modalImg">
+            </div>
+
+            <div class="description">
+                <span>{{cart.name}}</span>
+                <span>{{cart.category}}</span>
+                <span class="product-price text-dark fw-bold" data-price="{{ cart.price }}">{{cart.price}}</span>
+            </div>
+
+            <div class="quantity">
+                <!-- Add classes instead of IDs -->
+                <i class="fa-solid fa-circle-plus plus-button"></i>
+                <input type="text" class="quantity-input" name="name" value="{{ cart.quantity }}" readonly>
+                <i class="fa-solid fa-circle-minus minus-button"></i>
+            </div>
+
+            <!-- Initialize total price based on the product's price -->
+            <!-- <div class="total-price mx-2 tot"><strong>${{ cart.price }}</strong></div> -->
+            <!-- <div class="total-price mx-2 tot"><strong>${{ cart.price * cart.quantity }}</strong></div> -->
+            <div class="total-price mx-2 tot"><strong>${{ (cart.price | float) * cart.quantity }}</strong></div>
+
+        </div>
+        {% endfor %}
+
+        {% if carts|length != 0 %}
+            <a class="btn btn-success text-light {{ 'disabled' if session['confirm'] == 0 else '' }}" href="{{ url_for('payment') }}">Payment</a>
+            {% if session['confirm'] == 0 %} 
+                <span class="text-danger cart-span-notice">At first You have to confirm your E-mail
+                    <a class="nav-link" href="{{url_for('show_confirm_account')}}">
+                        confirm
+                    </a>
+                </span>
+            {% endif %}
+        {% endif %}
+    </div>
+    
+</div>
+
+
+<!-- <script>
+    // Select all plus and minus buttons
+    const plusButtons = document.querySelectorAll('.plus-button');
+    const minusButtons = document.querySelectorAll('.minus-button');
+    
+    // Function to calculate and update the total sum of all items
+    function updateTotalSum() {
+        let totalSum = 0;
+    
+        // Select all total-price elements and sum them up
+        document.querySelectorAll('.total-price').forEach((element) => {
+            totalSum += parseFloat(element.textContent.replace('$', ''));
+        });
+    
+        // Update the total sum in the DOM
+        document.querySelector('.total').textContent = `Total: $${totalSum.toFixed(2)}`;
+    }
+    
+    plusButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            // Find the corresponding input and total price elements
+            const quantityInput = button.parentElement.querySelector('.quantity-input');
+            const totalPriceElement = button.closest('.item').querySelector('.total-price');
+            const productPrice = parseFloat(button.closest('.item').querySelector('.product-price').getAttribute('data-price'));
+    
+            // Increment the value
+            let currentValue = parseInt(quantityInput.value, 10);
+            quantityInput.value = currentValue + 1;
+    
+            // Calculate the new total price and update the DOM
+            const newTotalPrice = productPrice * (currentValue + 1);
+            totalPriceElement.textContent = `$${newTotalPrice.toFixed(2)}`;
+    
+             // Update the total sum of all items
+             updateTotalSum();
+        });
+    });
+    
+    minusButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            // Find the corresponding input and total price elements
+            const quantityInput = button.parentElement.querySelector('.quantity-input');
+            const totalPriceElement = button.closest('.item').querySelector('.total-price');
+            const productPrice = parseFloat(button.closest('.item').querySelector('.product-price').getAttribute('data-price'));
+    
+            // Decrement the value
+            let currentValue = parseInt(quantityInput.value, 10);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+    
+                // Calculate the new total price and update the DOM
+                const newTotalPrice = productPrice * (currentValue - 1);
+                totalPriceElement.textContent = `$${newTotalPrice.toFixed(2)}`;
+    
+                 // Update the total sum of all items
+                 updateTotalSum();
+            }
+        });
+    });
+    
+    updateTotalSum();
+    
+</script> -->
+
+<script>
+    // Open the modal and display the clicked image
+    function openModal(image) {
+        var modal = document.getElementById("imageModal");
+        var modalImg = document.getElementById("modalImg");
+        modal.style.display = "flex"; // Show the modal
+        modalImg.src = image.src; // Set the clicked image in the modal
+    }
+
+    // Close the modal
+    function closeModal() {
+        var modal = document.getElementById("imageModal");
+        modal.style.display = "none"; // Hide the modal
+    }
+
+
+    // Select all plus and minus buttons
+    const plusButtons = document.querySelectorAll('.plus-button');
+    const minusButtons = document.querySelectorAll('.minus-button');
+    
+    // Function to calculate and update the total sum of all items
+    function updateTotalSum() {
+        let totalSum = 0;
+    
+        // Select all total-price elements and sum them up
+        document.querySelectorAll('.total-price').forEach((element) => {
+            totalSum += parseFloat(element.textContent.replace('$', ''));
+        });
+    
+        // Update the total sum in the DOM
+        document.querySelector('.total').textContent = `Total: $${totalSum.toFixed(2)}`;
+    }
+    
+    plusButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            // Find the corresponding input and total price elements
+            const quantityInput = button.parentElement.querySelector('.quantity-input');
+            const totalPriceElement = button.closest('.item').querySelector('.total-price');
+            const productPrice = parseFloat(button.closest('.item').querySelector('.product-price').getAttribute('data-price'));
+    
+            // Increment the value
+            let currentValue = parseInt(quantityInput.value, 10);
+            quantityInput.value = currentValue + 1;
+    
+            // Calculate the new total price and update the DOM
+            const newTotalPrice = productPrice * (currentValue + 1);
+            totalPriceElement.textContent = `$${newTotalPrice.toFixed(2)}`;
+    
+            // Update the total sum of all items
+            updateTotalSum();
+    
+            // Send the updated quantity to the backend
+            updateQuantityInBackend(button.closest('.item').dataset.cartId, quantityInput.value);
+        });
+    });
+    
+    minusButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            // Find the corresponding input and total price elements
+            const quantityInput = button.parentElement.querySelector('.quantity-input');
+            const totalPriceElement = button.closest('.item').querySelector('.total-price');
+            const productPrice = parseFloat(button.closest('.item').querySelector('.product-price').getAttribute('data-price'));
+    
+            // Decrement the value if it's greater than 1
+            let currentValue = parseInt(quantityInput.value, 10);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+    
+                // Calculate the new total price and update the DOM
+                const newTotalPrice = productPrice * (currentValue - 1);
+                totalPriceElement.textContent = `$${newTotalPrice.toFixed(2)}`;
+    
+                // Update the total sum of all items
+                updateTotalSum();
+    
+                // Send the updated quantity to the backend
+                updateQuantityInBackend(button.closest('.item').dataset.cartId, quantityInput.value);
+            }
+        });
+    });
+    
+   
+    function updateQuantityInBackend(cartId, quantity) {
+        fetch('/update-quantity', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ cart_id: cartId, quantity: quantity }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Quantity updated successfully');
+                // Optionally update the UI here
+            } else {
+                console.error('Failed to update quantity');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+</script>
+
+{% endblock %}
