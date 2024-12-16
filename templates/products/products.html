@@ -1,0 +1,188 @@
+{% extends "base.html" %} 
+{% block title %}Products{% endblock %} 
+{% block content %}
+
+
+
+<div class="container-categories">
+  <div class="filter-category">
+    <div class="category-item">
+      <input
+        type="radio"
+        name="category"
+        value="All Product"
+        id="All Product"
+        checked
+      />
+      <label class="m-0" for="All Product">All Product</label>
+    </div>
+    <div class="category-item">
+      <input type="radio" name="category" value="Tvs" id="Tvs" />
+      <label class="m-0" for="Tvs">Tvs</label>
+    </div>
+    <div class="category-item">
+      <input type="radio" name="category" value="Devices" id="Devices" />
+      <label class="m-0" for="Devices">Devices</label>
+    </div>
+    <div class="category-item">
+      <input type="radio" name="category" value="Games" id="Games" />
+      <label class="m-0" for="Games">Games</label>
+    </div>
+    <div class="category-item">
+      <input type="radio" name="category" value="Watches" id="Watches" />
+      <label class="m-0" for="Watches">Watches</label>
+    </div>
+    <div class="category-item">
+      <input type="radio" name="category" value="Furniture" id="Furniture" />
+      <label class="m-0" for="Furniture">Furniture</label>
+    </div>
+    <div class="category-item">
+      <input type="radio" name="category" value="Clothes" id="Clothes" />
+      <label class="m-0" for="Clothes">Clothes</label>
+    </div>
+  </div>
+  
+  
+</div>
+
+<div class="card-list">
+  
+
+
+
+  <p class="text-danger no-product-found">
+    No Products Found in the Category "<strong class="category-resersh"></strong
+    >"
+  </p>
+  {% for product in products %}
+  <a
+    href="{{url_for('product_details', product_id=product.id)}}"
+    class="card-item"
+  >
+    <img src="../static/images/{{product.photo}}" alt="Card Image" />
+    <span class="editor">{{product.category}}</span>
+    <h3>{{product.name}}</h3>
+    <div class="arrow">
+      <i class="fas fa-arrow-right card-icon"></i>
+    </div>
+    <h3 class="text-success">{{product.price}} $</h3>
+  </a>
+
+  
+
+
+  {% if products|length == 0 %}
+  <p>No products found</p>
+  {% endif %} {% endfor %}
+</div>
+<hr>
+<p class="my-3 text-center">
+  The Total : <span class="fw-bold text-success total-products"></span> from
+  {{products|length}} Products
+</p>
+
+{% if role == 'admin' %}
+<div class="container-button p-5">
+  <a class="btn btn-success" href="{{url_for('add_product')}}">
+    Add Product
+    <i class="fa-solid fa-circle-plus ml-2"></i>
+  </a>
+</div>
+{% endif %}
+
+
+
+<script>
+  let productsList = document.querySelectorAll(".card-list .card-item");
+  const searchInput = document.querySelector(".searchInput");
+
+  // filter the products
+  searchInput.addEventListener("input", (e) => {
+    const searchValue = searchInput.value.toLowerCase().trim();
+    for (let index = 0; index < productsList.length; index++) {
+      const element = productsList[index];
+      const productName = element.children[2].textContent.toLowerCase().trim();
+      const productCategory = element.children[1].textContent
+        .toLowerCase()
+        .trim();
+
+      // Check if the product name includes the search value (partial match)
+      if (
+        productName.includes(searchValue) ||
+        productCategory.includes(searchValue)
+      ) {
+        element.style.display = "block";
+      } else {
+        element.style.display = "none";
+      }
+    }
+  });
+
+  const inputs = document.querySelectorAll(
+    ".filter-category .category-item input"
+  );
+  const noProductFound = document.querySelector(".no-product-found");
+  const categoryResersh = document.querySelector(".category-resersh");
+  const totalProductsSpan = document.querySelector(".total-products");
+  let arrayOfElemente = [];
+
+  totalProductsSpan.innerHTML = productsList.length;
+  // Function to update the total products count dynamically
+  function updateProductCount() {
+    totalProductsSpan.innerHTML = arrayOfElemente.length;
+  }
+
+  // Function to display all Products
+  function showProducts() {
+    productsList.forEach((element) => {
+      element.style.display = "block";
+      arrayOfElemente.push(element);
+    });
+  }
+
+  inputs.forEach((input) => {
+    input.addEventListener("change", () => {
+      arrayOfElemente.splice(0, arrayOfElemente.length);
+      if (input.value == "All Product") {
+        noProductFound.style.display = "none";
+        showProducts();
+        updateProductCount(); // Update count for all products
+      } else {
+        if (input.checked) {
+          categoryLabel = input.nextElementSibling.textContent.toLowerCase();
+
+          for (let index = 0; index < productsList.length; index++) {
+            const element = productsList[index];
+            const productCategory = element.children[1].textContent
+              .toLowerCase()
+              .trim();
+
+            if (productCategory == categoryLabel) {
+              element.style.display = "block";
+              arrayOfElemente.push(element);
+            } else {
+              element.style.display = "none";
+            }
+          }
+
+          if (arrayOfElemente.length === 0) {
+            noProductFound.style.display = "block";
+            categoryResersh.innerHTML = input.value;
+          } else {
+            noProductFound.style.display = "none";
+          }
+
+          // Update product count based on category selection
+          updateProductCount();
+        } else {
+          showProducts();
+          updateProductCount(); // Reset count to total products
+        }
+      }
+    });
+  });
+
+  // Call the function once initially to set the correct product count on page load
+</script>
+
+{% endblock %}

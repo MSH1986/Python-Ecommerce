@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Favorites{% endblock %}
+
+{% block content %}
+
+    <!-- Display flash messages -->
+ 
+    <p class= "email-container" style="position: absolute; right: 62px; top: 16px;">
+        <strong class="fw-bold text-dark">{{ email }}</strong>
+        <i class="fa-solid fa-user mx-2 text-success"></i>
+    </p>
+     
+    
+
+<div class="favorite-cart">
+    <!-- Title -->
+    <div class="title">
+      Favorites Bag
+      <p class="btn-toggle-list">
+        <!-- <i class="fa-solid fa-border-all"></i> -->
+      </p>
+    </div>
+
+    {% if favorites|length == 0 %}
+     <p class="text-danger fw-bold m-auto empty-msg">The Favorites Bag is empty</p>
+    {% endif %}
+
+    <!-- Product Loop -->
+    <div class="container-favorites">
+        {% for favorite in favorites %}
+        <div class="item">
+            <div class="buttons">
+                <a href="{{url_for('delete_favorite', favorite_id=favorite.id)}}">
+                    <i class="fa-solid fa-trash-can text-danger"></i>
+                </a>
+            </div>
+
+            <div class="image">
+                <img class="image-fav" src="../static/images/{{favorite.photo}}" alt="" />
+            </div>
+
+            <div class="description">
+                <span>{{favorite.name}}</span>
+                <span>{{favorite.category}}</span>
+                <span>{{favorite.price}} $</span>
+            </div>
+
+            <div class="for-small-screen">
+                <a href="{{url_for('delete_favorite', favorite_id=favorite.id)}}">
+                    Remove
+                </a>
+                <a href="{{url_for('add_from_favorites_to_cart', favorite_id=favorite.id)}}">
+                    Add to cart
+                </a>
+            </div>
+
+            <span class="btn-add-to-cart">
+                <a href="{{url_for('add_from_favorites_to_cart', favorite_id=favorite.id)}}">
+                    <i class="fa-solid fa-cart-shopping text-light"></i>
+                </a>
+            </span>
+        
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<script>
+
+    const containerFavorites = document.querySelector('.container-favorites');
+    const btnToggleList = document.querySelector('.btn-toggle-list');
+    btnToggleList.innerHTML = localStorage.getItem('icon') || '<i class="fa-solid fa-border-all"></i>';
+    containerFavorites.classList.add(localStorage.getItem('list') || 'rowsList');
+
+    btnToggleList.addEventListener('click', ()=> {
+       if(containerFavorites.classList.contains('rowsList')){
+            containerFavorites.classList.remove('rowsList');
+            containerFavorites.classList.add('columnsList');
+            localStorage.setItem('list', 'columnsList')
+            btnToggleList.innerHTML = '<i class="fa-solid fa-bars"></i>';
+            localStorage.setItem('icon', '<i class="fa-solid fa-bars"></i>')
+          
+        } 
+        else
+        {
+            containerFavorites.classList.add('rowsList');
+            containerFavorites.classList.remove('columnsList');
+            localStorage.setItem('list', 'rowsList')
+            btnToggleList.innerHTML = '<i class="fa-solid fa-border-all"></i>';
+            localStorage.setItem('icon', '<i class="fa-solid fa-border-all"></i>')
+        }
+    })
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Add Product{% endblock %}
+
+
+{% block content %}
+
+    <div class="containerAdd">
+        <form class="form" method="post">
+
+            <div class="form-group">
+              <input type="text" name="name" class="form-control" placeholder="name of product">
+            </div>
+
+            <div class="form-group">
+             <select class="form-control form-select-lg w-100" name="category" aria-label="Default select example">
+                <option selected>Select the Category</option>
+                <option value="Watches">Watches</option>
+                <option value="TVs">TVs</option>
+                <option value="Clothes">Clothes</option>
+                <option value="Furniture ">Furniture</option>
+                <option value="Games">Games</option>
+                <option value="Devices">Devices</option>
+             </select>
+            </div>
+
+            <div class="form-group">
+              <textarea class="form-control" name="description" id="" placeholder="description">
+
+              </textarea>
+            </div>
+
+            <div class="form-group">
+              <input type="text" name="price" class="form-control" placeholder="price">
+            </div>
+            
+            <div class="form-group">
+              <input type="file" name="photo" class="form-control" placeholder="add Photo">
+            </div>
+            
+            <div class="btns">
+                <button class="btn btn-success" type="submit">Add product</button>
+                <a class="btn btn-danger" href="{{url_for('display_products')}}">Cancel</a>
+            </div>
+          </form>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details</title>
+
+    <!-- add the link of Style.css -->
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='assets/details.css') }}">
+    
+
+    <!-- add font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- add the Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<style>
+  .flash-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: none; /* Hidden by default */
+  }
+</style>
+<body>
+      <!-- Flash message container -->
+      <div class="flash-message">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button> -->
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+  <div class="wrapper">
+    
+    <div class="product-img d-flex align-items-center justify-content-center flex-column">
+      <img class="" src="../static/images/{{product.photo}}">
+      <div class="m-3 d-flex align-items-center justify-content-center">
+        <i class="fa-solid fa-star text-warning" role="button"> </i>
+        <i class="fa-solid fa-star text-warning"></i>
+        <i class="fa-solid fa-star text-warning"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+      </div>
+    </div>
+    <div class="product-info">
+
+      <a href="{{url_for('add_to_favorites', product_id=product.id)}}" class="text-success"
+        data-toggle="tooltip" data-placement="left" title="Add to Favorites">
+        <i class="fa-regular fa-heart"></i>
+      </a>
+
+      <div class="product-text">
+        <h1>{{product.name}}</h1>
+        <h2>Category: {{product.category}}</h2>
+        <p>{{product.description}}</p>
+      </div>
+    
+
+      <div class="product-price-btn">
+        <p><span>Price:</span> {{product.price}} $</p>
+        <a href="{{url_for('add_to_cart', product_id=product.id)}}">
+          <button type="button">Add To Cart<i class="fa-solid fa-cart-plus ml-2"></i></button>
+        </a>
+      </div>
+
+    </div>
+    
+  </div>
+
+
+  <div class="d-flex align-items-center justify-content-center">
+    <a class="btn btn-danger" href="{{url_for('display_products')}}">back to Products</a>
+  </div>
+
+ 
+  <!-- Ratings and Comments Section -->
+  <div class="ratings-container">
+    <div class="title-plus-btn">
+      <h5>User Ratings & Comments</h5>
+      <button class="btn btn-outline-secondary add-comment-btn">Add Comment</button>
+    </div>
+    {% for rating in ratings %}
+      <div class="comment border rounded p-3 mb-3">
+        <!-- Display the star rating -->
+        <div class="rating">
+          <h6>
+            {% for _ in range(rating.rating_value) %}
+              <i class="fa-solid fa-star text-warning"></i> <!-- Display filled stars for the rating -->
+            {% endfor %}
+            {% for _ in range(5 - rating.rating_value) %}
+              <i class="fa-regular fa-star text-warning"></i> <!-- Display empty stars for remaining -->
+            {% endfor %}
+          </h6>
+        </div>
+        
+        <!-- Display user name and comment text -->
+        <h6>{{ rating.user_name }}</h6>
+        <p>{{ rating.comment }}</p>
+        <span>{{rating.created_at}}</span>
+
+
+        <div class="actions">
+          {% if session.get('id') == rating.user_id %}
+            <a class="btn btn-primary btn-sm" href="">
+              <i class="fa-regular fa-pen-to-square text-light"></i>
+            </a>
+            <!-- <i class="fa-regular fa-pen-to-square text-primary"></i> -->
+            <a class="btn btn-danger btn-sm" href="{{ url_for('delete_comment', user_id= session['id'], product_id=product.id) }}">
+              <i class="fa-solid fa-trash-can text-light"></i></a>
+            <!-- <i class="fa-solid fa-trash-can text-danger"></i> -->
+          {% endif %}
+        </div>
+
+      </div>
+    {% else %}
+      <p>No comments yet. Be the first to leave a comment!</p>
+    {% endfor %}
+  </div>
+  <!-- End Ratings and Comments Section -->
+
+
+
+  <div class="add-comment-container">
+    <h3 class="btn btn-danger text-light p-1 close">X</h3>
+    
+    <form action="{{ url_for('add_rating', product_id=product.id) }}" method="POST">
+      <div class="form-group">
+        <label for="rating">Rating (1 to 5 stars)</label>
+        <select name="rating_value" id="rating" class="form-control" required>
+          <option value="1">1 Star</option>
+          <option value="2">2 Stars</option>
+          <option value="3">3 Stars</option>
+          <option value="4">4 Stars</option>
+          <option value="5">5 Stars</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="comment">Your Comment</label>
+        <textarea name="comment_text" id="comment" class="form-control" rows="3" required></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary p-2">Add Comment</button>
+    </form>
+  </div>
+
+
+  
+  <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script> -->
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+            // Select the flash message container
+            const flashMessage = document.querySelector('.flash-message');
+
+            if (flashMessage) {
+                // Show the flash message container
+                flashMessage.style.display = 'block';
+
+                // Hide the flash message after 3 seconds (3000 milliseconds)
+                setTimeout(function() {
+                    flashMessage.style.display = 'none';
+                }, 8000);
+            }
+        });
+
+
+    const addCommentBtn = document.querySelector('.add-comment-btn');
+    const commentWindow = document.querySelector('.add-comment-container');
+    const closeWindow = document.querySelector('.close');
+
+    addCommentBtn.addEventListener('click', () => {
+      commentWindow.style.display = 'block';
+    })
+    closeWindow.addEventListener('click', () => {
+      commentWindow.style.display = 'none';
+    })
+
+  </script>
+</body>
+
+</html>
