@@ -1,0 +1,105 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    height: 100vh;
+}
+
+.container-box {
+    width: 55px;
+    height: 55px;
+    /* background: rgb(172, 4, 37); */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.container-box div {
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 2px;
+    position: absolute;
+    border-radius: 50%;
+}
+
+/* Positioning each box */
+.box-one {
+    top: 10px;
+    left: 10px;
+    animation: box-animation 2s linear infinite;
+    animation-delay: 0s;
+}
+
+.box-two {
+    top: 7px;
+    left: 22px;
+    animation: box-animation 2s linear infinite;
+    animation-delay: 0.25s;
+}
+
+.box-three {
+    top: 10px;
+    left: 34px;
+    animation: box-animation 2s linear infinite;
+    animation-delay: .5s;
+}
+
+.box-four {
+    top: 22px;
+    left: 38px;
+    animation: box-animation 2s linear infinite;
+    animation-delay: 0.75s;
+}
+
+.box-five {
+    top: 34px;
+    left: 34px;
+    animation: box-animation 2s linear infinite;
+    animation-delay: 1s;
+}
+
+.box-six {
+    top: 38px;
+    left: 22px;
+    animation: box-animation 2s linear infinite;
+    animation-delay: 1.25s;
+}
+
+.box-seven {
+    top: 34px;
+    left: 10px;
+    animation: box-animation 2s linear infinite;
+    animation-delay: 1.5s;
+}
+
+.box-eight {
+    top: 22px;
+    left: 6px;
+    animation: box-animation 2s linear infinite;
+    animation-delay: 1.75s;
+}
+
+/* Keyframes for the animation */
+@keyframes box-animation {
+    0% {
+        background: white;
+    }
+    50% {
+        background: green;
+    }
+    100% {
+        background: white;
+    }
+}
+
+.text{
+    position: absolute;
+    top: 400px;
+    color: #aca6a6;
+    font-size: 20px;
+   
+}

@@ -1,0 +1,252 @@
+*{
+  user-select: none;
+}
+
+.favorite-cart {
+  margin: 80px auto;
+  background: #FFFFFF;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+}
+
+.favorite-cart .empty-msg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50px, -50px);
+    text-align: center;
+}
+
+.title {
+  height: 60px;
+  border-bottom: 1px solid #E1E8EE;
+  padding: 20px 30px;
+  color: #5E6977;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: auto;
+  width: 70%;
+  margin-bottom: 10px;
+}
+
+.title .btn-toggle-list {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  margin: 0;
+}
+
+.title .btn-toggle-list .i:hover {
+  color: #333;
+}
+.favorite-cart .container-favorites{
+  display: grid;
+  width: 60%;
+  margin: auto;
+}
+
+.favorite-cart .container-favorites.columnsList {
+  grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
+  gap: 10px;
+}
+
+.favorite-cart .container-favorites.columnsList .item {
+  margin-bottom: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.favorite-cart .container-favorites.columnsList .description {
+  padding-top: 10px;
+  /* margin-left: 15px; */
+  margin-right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.favorite-cart .container-favorites.columnsList .buttons {
+  
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.favorite-cart .container-favorites.rowsList {
+  grid-template-rows:repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0;
+}
+
+.item {
+  position: relative;
+  padding: 20px 30px;
+  background-color: rgb(238, 238, 238);
+  display: flex;
+  margin-bottom: 10px;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid transparent;
+  overflow: hidden;
+  flex-wrap: wrap;
+  height: auto;
+}
+  
+.item:hover {
+  border: 1px solid green;
+}
+  
+.item .quantity {
+  width: 100px;
+}
+  
+.item .quantity input{
+  width: 50%;
+  text-align: center;
+}
+  
+
+.buttons {
+  font-size: 20px;
+}
+
+.delete-btn,
+.like-btn {
+  display: inline-block;
+  Cursor: pointer;
+}
+
+
+.image {
+    margin-right: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+   
+.image .image-fav {
+    height: 90px;
+}
+
+.description {
+  flex: 2;
+}
+
+.description span:nth-child(2) {
+  background: #6ccd6c;
+  width: fit-content;
+  padding: 2px 10px;
+  border-radius: 20px;
+  color: white;
+  letter-spacing: 1px;
+}
+  
+.description span {
+  display: block;
+  font-size: 14px;
+  color: #43484D;
+  font-weight: bold;
+}
+  
+.description span:first-child {
+  margin-bottom: 5px;
+}
+.description span:last-child {
+  font-weight: 800;
+  margin-top: 8px;
+  color: #43484D;
+}
+
+.for-small-screen{
+  display: none;
+}
+
+.btn-add-to-cart{
+  width: 50px;
+  position: absolute;
+  right: -50px;
+  height: 100%;
+  background: #c3d7be;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .4s ease-in-out;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.item:hover .btn-add-to-cart{
+  right: 0;
+}
+
+
+.item .btn-add-to-cart:hover a > i{
+  color: #28a745 !important;
+}
+
+@media screen and (max-width:900px){
+  .title .btn-toggle-list {
+   display: none;
+  }
+}
+
+@media screen and (max-width:700px){
+  .title{
+    font-size: 14px;
+  }
+  .item {
+    padding: 10px;
+    flex-direction: column;
+  }
+  .buttons {
+    display: none;
+  }
+  .image .image-fav {
+    height: 100px;
+    border-radius: 60%;
+  }
+
+  .description{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .item .for-small-screen{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 10px;
+    background: #cccccc80;
+    padding: 10px 0;
+  }
+  .item .for-small-screen a:first-child{
+    background: red;
+    border-radius: 5px;
+    padding: 2px;
+    font-size: 12px;
+    color: white;
+    text-decoration: none;
+  }
+  .item .for-small-screen a:last-child{
+    background: green;
+    padding: 3px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: white;
+    text-decoration: none;
+  }
+
+  .item .btn-add-to-cart{
+    display: none;
+  }
+}

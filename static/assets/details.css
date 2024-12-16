@@ -1,0 +1,250 @@
+/* Details Page CSS */
+*{
+  user-select: none;
+}
+
+.wrapper {
+  margin: 50px;
+  border-radius: 7px 7px 7px 7px;
+  -webkit-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+  
+.product-img {
+  height: 100%;
+  flex: 50%;
+  padding: 50px 0;
+}
+  
+.product-img img {
+  border-radius: 7px 0 0 7px;
+  width: 50%;
+}
+
+.product-info {
+  height: 100%;
+  border-radius: 0 7px 10px 7px;
+  background-color: #ffffff;
+  position: relative;
+  flex: 50%;
+  padding:10px 10px 50px 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.product-info a:first-child  {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.product-info .fa-heart{
+  font-size: 20px;
+  float: right;
+}
+
+.product-text {
+  flex: 5;
+  padding-bottom: 100px;
+}
+
+.product-text h1 {
+  font-size: 30px;
+  color: #474747;
+}
+
+.product-text h1,
+.product-price-btn p {
+  font-family: 'Bentham', serif;
+}
+
+.product-text h2 {
+  margin: 10px 0 30px 0px;
+  font-size: 13px;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #918e8e;
+  letter-spacing: 0.2em;
+}
+
+.product-text p {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  color: #706f6f;
+  font-size: 16px;
+  font-weight: lighter;
+  overflow: hidden;
+  /* user-select: none; */
+}
+
+.product-price-btn {
+  width: 100%;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+}
+  
+.product-price-btn p {
+  font-size: 25px;
+  color:#4dad91;
+  margin: 0;
+
+}
+  
+.product-price-btn span {
+  font-size: 25px;
+  color: #666;;
+}
+  
+.product-price-btn button {
+  width: 180px;
+  padding: 12px;
+  box-sizing: border-box;
+  border: transparent;
+  border-radius: 25px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  background-color: #4dad91;
+  cursor: pointer;
+  outline: none;
+}
+  
+.product-price-btn button:hover {
+  background-color: #79b0a1;
+}
+
+.product-price-btn button:hover i {
+  color: black;
+}
+
+.ratings-container{
+  margin: 50px;
+  background-color: #f5f5f5;
+  padding: 10px;
+}
+
+.ratings-container .title-plus-btn{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+
+.ratings-container .comment{
+  background-color: #ffffff;
+  position: relative;
+}
+
+.ratings-container .comment h6, .ratings-container .comment p{
+  margin-bottom: 0;
+}
+
+.ratings-container .comment span{
+  position: absolute;
+  top: 15px;
+  right: 10px;;
+}
+
+.comment .actions{
+  position: absolute;
+  right: 100px;
+  top: 10px;
+  padding: 1px !important;
+}
+
+.comment .actions a{
+  padding: 4px !important;
+}
+
+.add-comment-container{
+  display: none;
+  padding: 15px;
+  position: absolute;
+  margin: auto;
+  width: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50px, -50px);
+  background: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #d1cdcd;
+}
+
+@media screen and (max-width: 910px){
+   
+  .product-price-btn p {
+    font-size: 20px;
+  }
+    
+  .product-price-btn span {
+    font-size: 20px;
+  }
+    
+  .product-price-btn button {
+    width: 150px;
+    padding: 10px;
+    font-size: 12px;
+  }
+
+}
+
+@media screen and (max-width: 700px){
+   
+  .product-img {
+    flex: 100%;
+  }
+  .product-img img {
+    width: 50%;
+  }
+
+}
+
+@media screen and (max-width: 480px){
+
+  .product-info .fa-heart{
+    font-size: 15px;
+  }
+  .product-text h1 {
+    font-size: 20px;
+  }
+  .product-text h2 {
+    font-size: 12px;
+  }
+  .product-text p {
+    font-size: 12px;
+  }
+  .product-price-btn p {
+    font-size: 12px;
+  }
+  .product-price-btn span {
+    font-size: 13px;
+  }
+  .product-price-btn button{
+    width: 115px;
+    padding: 5px;
+    font-size: 10px;
+  }
+  .ratings-container .title-plus-btn button, .ratings-container .title-plus-btn h5{
+    font-size: 12px;
+    padding: 3px;
+  }
+  .ratings-container p{
+    font-size: 12px;
+  }
+
+}

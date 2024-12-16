@@ -1,0 +1,302 @@
+.containerAdd{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh !important;
+}
+
+.containerAdd form {
+    border-radius: 10px;
+    width: 400px;
+    background-color: #dedede;
+    padding: 20px;
+    position: relative;
+}
+
+form .btns {
+    display: flex;
+    align-items: center;
+    justify-content:space-evenly;
+}
+form .drop-menu-gear{
+    font-size: 18px;
+    cursor: pointer;
+}
+form .drop-menu{
+    display: none;
+    background: #f8f9fa;
+    position: absolute;
+    width: auto;
+    height: auto;
+    top: 58px;
+    right: 0px;
+    z-index: 9999;
+    border-radius: 5px;
+    padding: 8px;
+    border: 1px solid #bbb;
+} 
+form .drop-menu p{
+    color: #645f5f;
+    font-size: 15px;
+    padding: 5px;
+    background: #bbbbbb3d;
+    border-radius: 5px;
+} 
+
+
+form .drop-menu a{
+    color: #666;
+    cursor: pointer;
+    padding: 4px !important;
+    margin-bottom: 5px;
+} 
+form .drop-menu a:hover{
+    background-color: #bbbbbb3d;
+    border-radius: 5px;
+} 
+form .drop-menu a i{
+    color: #63ad63;
+    margin-right: 5px;
+} 
+form .drop-menu a:last-child i{
+    color:crimson;
+} 
+
+
+
+/* --------------Start confirmation-code-window----------------- */
+
+.confirmation-code-window{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: #bebebe;
+    padding: 10px;
+    border-radius: 10px;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+
+
+/* ---------------End confirmation-code-window--------------------- */
+
+.table {
+   padding: 0px 300px;
+}
+
+
+
+.form-group span{
+    bottom: 0px;
+    left: 0px;
+    visibility: hidden;
+    color: #dc3545;
+    transition: .2s ease-in-out;
+    font-size: 13px;
+}
+.form-group span.active{
+    visibility: visible;
+   
+}
+
+
+.form-group i{
+    position: absolute;
+    top: 43px;
+    right: 10px;
+    visibility: hidden;
+    font-size: 20px;
+    transition: .2s ease-in-out;
+}
+
+.form-group i.active{
+    visibility: visible;
+}
+
+
+.container-table, .container-button {
+    padding: 0 100px;
+}
+.container-button .add-user:hover > i{
+   color: green;
+}
+.container-button .add-user {
+    font-weight: bold;
+}
+.container-button .add-user:hover {
+    background-color: white;
+    color: green;
+}
+
+
+.result {
+    display: none;
+}
+
+
+.confirmed{
+    color: green;
+}
+.not-confirmed{
+    color: #dc3545;
+}
+
+.fa-lock, .fa-lock-open{
+    font-size: 25px;
+}
+
+.fa-shield-halved{
+    font-size: 25px;
+    animation: security 2s linear infinite alternate;
+}
+
+.cart {
+    position: absolute;
+    top: 0px;
+    right: -3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #63ad63;
+    color: white;
+    line-height: 20px;
+    text-align: center;
+    font-size: 13px;
+}
+
+
+@keyframes security {
+    0%{
+        color: green;
+    }
+    100%{
+        color: rgb(149, 247, 2);
+    }
+}
+
+.container .input-confirm {
+    border-radius: 5px;
+    border: 2px solid #bebebe;
+    animation: input 2s linear infinite alternate;
+}
+
+@keyframes input {
+    0%{
+        border: 2px solid #0175fa;
+    }
+    100%{
+        border: 2px solid rgb(248, 183, 4);
+    }
+}
+
+
+@media screen and (max-width: 990px) {
+    .navbar .navbar-nav .nav-cart{
+        margin: 0 !important;
+    }
+    .cart {
+        position: absolute;
+        top: 0px;
+        left: 60px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #63ad63;
+        color: white;
+        line-height: 20px;
+        text-align: center;
+        font-size: 13px;
+    }
+    .cart.cart-number {
+        left: 20px;
+    }
+
+    .email-container{
+        display: none;
+    }
+    .navbar .navbar-nav .nav-account{
+        display: block !important;
+        margin: 0 !important;
+    }
+  }
+  
+
+
+  input[type=radio]{
+    accent-color: green;
+}
+
+
+
+
+/* ---------orders Page----------- */
+.empty-orders{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50px, -50px);
+}
+
+.style-font{
+    color: #a9a9a9;
+    font-size: 14px;
+}
+/* -------------------- */
+
+
+
+/* ---------------Notifications------------- */
+.notificationList a{
+ text-decoration: none;
+ color: inherit;
+}
+
+.notificationList a li {
+    padding: 10px;
+    border-bottom: 1px solid rgb(204, 204, 204);
+    cursor: pointer;
+    background-color: rgb(249, 249, 249);
+    width: 300px;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+}
+.notificationList a li:hover {
+    background-color: #e9e9e9;
+}
+
+.notificationList a li img{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+    border-radius: 50%;
+    border: 1px solid #979292;
+}
+.notificationList a li p{
+    font-size: 12px;
+    margin: 0;
+}
+.notificationList a li span{
+    color: rgb(153, 153, 153);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 11px;
+    margin-right: 5px;
+}
+
+
+
