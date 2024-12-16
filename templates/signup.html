@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <!-- add the link of Style.css -->
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='assets/style.css') }}">
+
+    <!-- add font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- add the Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+    <div class="containerAdd">
+      
+      <!-- Display flash messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          <div class="alert-container">
+              {% for category, message in messages %}
+                  <div class="alert alert-danger">
+                      {{ message }}
+                      <!-- <span class="close"><i class="fa-regular fa-circle-xmark"></i></span> -->
+                  </div>
+              {% endfor %}
+          </div>
+          {% endif %}
+      {% endwith %}
+
+        <form method="post">
+          <div class="form-group">
+            <input name="name" type="text" class="form-control" id="exampleInputName1" aria-describedby="emailHelp" placeholder="Enter your name">
+          </div>
+
+          <div class="form-group">
+            <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email address">
+          </div>
+
+          <div class="form-group">
+            <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="password">
+          </div>
+
+          <!-- <div class="form-group">
+            <input name="confirmpassword" type="password" class="form-control" id="exampleInputPassword2" placeholder="confirm password">
+          </div> -->
+        
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">Sign up</button>
+          </div>
+          
+          <p class="pt-4">Do you have already account? <a class="text-primary"  href="{{url_for('log_in')}}">Sign in</a></p>
+
+        </form>
+      </div>
+</body>
+</html>

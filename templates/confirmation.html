@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation Page</title>
+
+     <!-- add the link of Style.css -->
+     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='assets/style.css') }}">
+
+    <!-- add font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- add the Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+
+    <div class="container text-center pt-5">
+        <form method="post">
+            <h1>Confirmation Prossess</h1>
+            <h4>We have sent Email with Confirmation-Code to this Email: <strong>{{user.email}}</strong></h4>
+            <h6>Check your email Please</h6>
+            <div class="pt-5 text-center d-flex align-items-center justify-content-center flex-column">
+                <input class="text-center input-confirm" name="confirm" type="" placeholder="Enter the Code here">
+                <span class="msgError text-danger">The Code must be not longer than 6 digits</span>
+            </div>
+            <button type="submit" class="btn btn-success my-3">confirm</button>
+            <a class="btn btn-danger my-3" href="{{url_for('read_users')}}">Cancel</a>
+        </form>
+    </div>
+
+
+    <script>
+        const inputConfirm = document.querySelector('.input-confirm');
+        const msgError = document.querySelector('.msgError');
+        msgError.style.visibility = 'hidden'
+        inputConfirm.addEventListener('input', (e) => {
+            if(e.target.value.length > 6){
+              msgError.style.visibility = 'visible'
+            }else{
+              msgError.style.visibility = 'hidden'
+            }
+        })
+    </script>
+
+</body>
+</html>

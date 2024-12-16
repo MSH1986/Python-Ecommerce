@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Side Bar Animation</title>
+    <link rel="icon" href="menu-bar.png" type="image/icon type">
+    <!-- add the link of Style.css -->
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='assets/loading.css') }}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+
+    <div class="container-box">
+        <div class="box-one"></div>
+        <div class="box-two"></div>
+        <div class="box-three"></div>
+        <div class="box-four"></div>
+        <div class="box-five"></div>
+        <div class="box-six"></div>
+        <div class="box-seven"></div>
+        <div class="box-eight"></div>
+    </div>
+    
+    <p class="text">we are working on it, Please wait</p>
+    <script src="script.js"></script>
+
+    <!-- JavaScript to redirect after 5 seconds -->
+    <script>
+        setTimeout(function() {
+            window.location.href = "/products";  // Redirect to the users page after 5 seconds
+        }, 3000);  // 5000 milliseconds = 5 seconds
+    </script>
+
+</body>
+</html>

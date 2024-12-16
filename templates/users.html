@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}Users{% endblock %}
+
+
+{% block content %}
+
+     
+    <p style="position: absolute; right: 62px; top: 16px;">
+        <strong class="fw-bold text-dark">{{ email }}</strong>
+        <i class="fa-solid fa-user mx-2 text-success"></i>
+    </p>
+     
+
+    <!-- Display flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+         <div class="alert-container">
+             {% for category, message in messages %}
+                 <div class="alert alert-{{ category }}">
+                     {{ message }}
+                     <span class="close"><i class="fa-regular fa-circle-xmark"></i></span>
+                 </div>
+             {% endfor %}
+         </div>
+        {% endif %}
+    {% endwith %}
+   
+
+    <h1 class="text-center py-3">Users Table</h1>
+    
+    <div class="container-table">
+        <table class="table ">
+            <thead class="thead-dark">
+                <tr>
+                    <th><i class="fa-solid fa-id-card mr-2"></i>  ID</td>
+                    <th><i class="fa-solid fa-user mr-2"></i>  Name</td>
+                    <th><i class="fa-solid fa-envelope mr-2"></i>  Email</td>
+                    <th class="text-center"><i class="fa-solid fa-shield mr-2"></i>  Confirmation</td>
+                    <th class="text-center"><i class="fa-solid fa-calendar-check mr-2"></i>  Registration</td>
+                    <th class="text-center">Update</td>
+                    <th class="text-center">Delete</td>
+                </tr>
+            </thead>
+    
+            {% for data in datas %}
+            <tbody>
+                <tr>
+                    <td>{{data.id}}</td>
+                    <td>{{data.name}}</td>
+                    <td>{{data.email}}</td>
+
+                    {% if data.confirm == 0 %}
+                    <td class="text-center">
+                        <i class="fa-solid fa-lock-open text-danger"></i>
+                    </td>
+                    {% else %}
+                    <td class="text-center">
+                       <i class="fa-solid fa-lock text-success"></i>
+                    </td>
+                    {% endif %}
+
+                   
+
+                    <td class="text-center">{{ data.registration }}</td>
+
+                    
+                    {% if data.confirm == 0 %}
+                    <td class="text-center">
+                        <a href="{{url_for('update_user', user_Id = data.id)}}" class="btn btn-primary px-2"
+                            data-toggle="tooltip" data-placement="top" title="update user">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a href="{{url_for('delete_user', user_Id = data.id)}}" class="btn btn-danger px-2"
+                        data-toggle="tooltip" data-placement="top" title="delete user">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </a>
+                    </td>
+                    {% else %}
+                        <td class="text-center" 
+                        data-toggle="tooltip" data-placement="top" title="The User is protected">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </td>
+                        <td class="text-center" 
+                        data-toggle="tooltip" data-placement="top" title="The User is protected">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </td
+                    {% endif %}
+                   
+                    
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+        <h4 class="text-center text-danger fw-bold result pt-3">No Users Found <br> .....</h4>
+    </div>
+
+    {% if datas|length == 0 %}
+        <p class="text-danger">No users found</p>
+    {% endif %}
+
+    <!-- <div class="container-button">
+        <a class="btn btn-success add-user" href="{{url_for('add_user')}}">Add User <i class="fa-solid fa-circle-plus"></i></a>
+    </div> -->
+
+{% endblock %}
+
+<script>
+    const msgBody = document.querySelector('.alert-container');
+    const closeBtn = document.querySelector('.close');
+    
+    if(closeBtn != null){
+        closeBtn.addEventListener('click', ()=> {
+            msgBody.style.display = 'none'
+        })
+    }
+
+    // ------------------------------------------
+    const searchInput = document.querySelector('.searchInput');
+    const resultUsers = document.querySelector('.result');
+
+    searchInput.addEventListener('input', (e)=> {
+        const search = e.target.value.toLowerCase();
+        let arrayOfUsers = document.querySelectorAll('tbody tr');
+        noMatch = true
+        // Loop through all rows
+        for (let index = 0; index < arrayOfUsers.length; index++) {
+            const row = arrayOfUsers[index];  // Get the current row
+    
+            const nameCell = row.children[1];  // Assuming the name is in the 2nd <td> (index 1)
+            
+            if (nameCell) {
+            const name = nameCell.textContent.toLowerCase();  // Get the name and convert to lowercase
+            
+                // Check if the search term is part of the name
+                if (name.includes(search)) {
+                    row.style.display = "";  // Show row if it matches
+                    noMatch = false
+                } else {
+                    row.style.display = "none";  // Hide row if it doesn't match
+                }
+            }
+        }
+        // Show or hide resultUsers based on whether any matches were found
+        if (noMatch) {
+            resultUsers.style.display = "block";  // Show result message if no matches
+        } else {
+            resultUsers.style.display = "none";  // Hide result message if there are matches
+        }
+    })
+
+
+</script>

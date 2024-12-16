@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    
+    <!-- add the link of Style.css -->
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='assets/style.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='assets/products.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='assets/favorites.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='assets/cart.css') }}">
+
+    <!-- add font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- add the Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+</head>
+<style>
+  header{
+    position: fixed;
+    width: 100%;
+    padding: 0 40px;
+    z-index: 9999;
+    background-color: white; /* Ensure background color */
+    margin-bottom: 5px;
+  }
+    /* Pseudo-element for the border */
+  header::after {
+      content: "";
+      position: absolute;
+      left: 40px; /* Same as the left padding */
+      right: 40px; /* Same as the right padding */
+      bottom: -2px; /* Position at the bottom */
+      height: 2px; /* Height of the border */
+      background-color: #205c20; /* Border color */
+      z-index: -1; /* Place behind the header content */
+  }
+  main {
+    padding: 56px 40px;
+  }
+</style>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{{url_for('display_products')}}"><strong>Bitlc Shop</strong></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                
+                <li class="nav-item">
+                  <a class="nav-link" href="{{url_for('display_products')}}">products</a>
+                </li>
+
+                {% if role == 'admin' %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{url_for('read_users')}}">Home <span class="sr-only">(current)</span></a>
+                  </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
+                </li>
+                {% endif %}
+
+    
+
+                
+                {% if role == 'user' %}
+                <li class="nav-item">
+                  <a class="nav-link position-relative" href="{{url_for('display_favorites')}}">
+                    Favorites
+                     {% if favorite_count > 0 %}
+                       <span class="cart">{{ favorite_count }}</span> <!-- Display the count here if it's greater than 0 -->
+                     {% endif %}
+                  </a>
+                </li>
+                {% endif %}
+               
+
+                {% if role == 'user' %}
+                <li class="nav-item ml-2 position-relative nav-cart">
+                  <a class="nav-link" href="{{url_for('display_cart')}}">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                  </a>
+                    {% if cart_count > 0 %}
+                      <span class="cart cart-number">{{ cart_count }}</span> <!-- Display the count here if it's greater than 0 -->
+                    {% endif %}
+                  </li>
+                {% endif %}
+
+                
+                
+                
+                {% if role == 'user' %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{{url_for('view_orders')}}">Orders</a>
+                </li>
+                {% endif %}
+                
+                {% if role == 'user' %}
+                <!-- Bell icon for notifications -->
+                <div id="notificationBell" style="position: relative; cursor: pointer; display: flex; align-items: center;">
+                  
+                  {% if unread_count == 0 %}
+                  <i class="fa fa-bell" data-toggle="tooltip" data-placement="right" title="No Notifications"></i>
+                  <!-- Notification badge showing unread count -->
+                  {% else %} 
+                  <span id="notificationCount" data-toggle="tooltip" data-placement="right" title="You have {{unread_count}} new Notifications"
+                  style="position: absolute; width: 20px; line-height: 20px; display: flex; justify-content: center; align-items: center; height: 20px; top: -10px; right: -10px; background: red; color: white; border-radius: 50%; padding: 5px;">{{ unread_count }}</span>
+                  <i class="fa fa-bell text-success" ></i>
+                   <!-- Dropdown for notifications -->
+                    <div id="notificationDropdown" class="dropdown-menu" style="display: none;">
+                      <ul class="notificationList" id="notificationList" style="list-style: none; height: 300px; overflow-y: scroll;">
+                        <!-- Li elemente will be added here -->
+                         
+                        <div id="notificationSpinner" style="display: none;">
+                          <i class="fa fa-spinner fa-spin" style="font-size: 24px; color: gray;"></i>
+                        </div>
+
+                      </ul>
+                    </div>
+                  {% endif %}
+                </div>
+                {% endif %}
+                
+              </ul>
+              
+              <form class="form-inline my-2 my-lg-0 search-box">
+                <input name="search" class="form-control mr-sm-2 searchInput" type="search" placeholder="Search for Product" aria-label="Search">
+                {% if role == 'user' %}
+                <i class="fa-solid fa-gear drop-menu-gear"></i>
+                <div class="drop-menu">
+                  <p>{{ session['email'] }}</p>
+
+                  {% if confirm == 0 %}
+                       <a class="nav-link" href="{{url_for('show_confirm_account')}}"
+                       data-toggle="tooltip" data-placement="right" title="You have to confirm your Account">
+                       <i class="fa-solid fa-circle-info text-warning"></i> Account
+                        
+                      </a>
+                    {% else %}
+                      <i class="fa-solid fa-circle-check text-success ml-1"></i>
+                      Account
+                  {% endif %}
+                  <a class="nav-link" href="{{url_for('show_profile')}}">
+                    <i class="fa-solid fa-address-card"></i> Profile</a>
+                  <hr>
+                  <a class="nav-link" href="{{url_for('logout')}}">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                  </a>
+
+                </div>
+                {% endif %}
+              </form>
+ 
+
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+      <!-- <p>&copy; 2024-Bitlc</p> -->
+    </footer>
+    
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+  
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+      // show the drop menu :
+      const dropMenuGear = document.querySelector('.drop-menu-gear');
+      const dropMenu = document.querySelector('.drop-menu');
+      dropMenuGear.addEventListener('click', () => {
+        dropMenu.style.display === 'block' ?  dropMenu.style.display = 'none' :  dropMenu.style.display = 'block';
+      })
+       
+      // Hide the search field if the title does not contain "Products":
+     if(window.document.title != 'Products'){
+        const searchBox = document.querySelector('.search-box');
+        searchBox.style.display= 'none'
+      }
+
+// Connect to the WebSocket server
+var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+socket.on('connect', () => {
+  console.log('Connected to server');
+});
+
+// Update notification count without redirecting the user
+socket.on('new_product', function(data) {
+  const notificationCount = document.getElementById('notificationCount');
+  if (notificationCount) {
+    notificationCount.innerText = data.unread_count;
+  }
+});
+
+// Function to fetch and display notifications in the dropdown
+function fetchAndDisplayNotifications() {
+  const notificationList = document.getElementById('notificationList');
+  const notificationDropdown = document.getElementById('notificationDropdown');
+  const notificationCount = document.getElementById('notificationCount');
+
+  // Check if elements exist before proceeding
+  if (!notificationDropdown || !notificationList) {
+    console.warn("Notification dropdown element or notification list not found on the page.");
+    return;  // Exit if dropdown elements are not available
+  }
+
+  // Fetch notifications when dropdown is opened
+  fetch('/get_notifications')
+    .then(response => response.json())
+    .then(data => {
+      notificationList.innerHTML = '';  // Clear existing notifications
+      
+      // Filter notifications to show only those less than 1 day old
+      const currentTime = new Date();
+      const filteredNotifications = data.notifications.filter(notification => {
+        const notificationTime = new Date(notification.created_at);
+        const timeDifference = currentTime - notificationTime;
+        return timeDifference < 24 * 60 * 60 * 1000;  // 1 day in milliseconds
+      });
+
+      // Populate notifications in the dropdown
+      filteredNotifications.forEach(notification => {
+        const a = document.createElement('a');
+        a.href = `/detailsProduct/${notification.product_id}`;
+        const li = document.createElement('li');
+
+        // Optional hover effect
+        li.addEventListener('mouseover', () => li.style.backgroundColor = '#e9e9e9');
+        li.addEventListener('mouseout', () => li.style.backgroundColor = '#f9f9f9');
+
+        // Add image if available
+        if (notification.photo) {
+          const img = document.createElement('img');
+          img.src = `/static/images/${notification.photo}`;
+          img.alt = 'Product Image';
+          li.appendChild(img);
+        }
+
+        // Add notification message
+        const p = document.createElement('p');
+        p.innerText = notification.message;
+        li.appendChild(p);
+
+        // Add the notification date
+        const dateSpan = document.createElement('span');
+        dateSpan.innerText = `Added on: ${notification.created_at}`;
+        li.appendChild(dateSpan);
+
+        a.appendChild(li);
+        notificationList.appendChild(a);
+      });
+    });
+
+  // Show the notification dropdown
+  notificationDropdown.style.display = 'block';
+
+  // Clear notification count
+  if (notificationCount) {
+    notificationCount.innerText = '';
+  }
+}
+
+// Function to toggle notification dropdown visibility
+function toggleNotificationDropdown() {
+  const notificationDropdown = document.getElementById('notificationDropdown');
+  
+  // Check if notificationDropdown exists at click time
+  if (!notificationDropdown) {
+    console.warn("Notification dropdown element not found on the page.");
+    return;  // Exit if dropdown is not found
+  }
+
+  const isVisible = notificationDropdown.style.display === 'block';
+
+  // Toggle the dropdown visibility
+  if (isVisible) {
+    notificationDropdown.style.display = 'none';
+  } else {
+    fetchAndDisplayNotifications(); // Fetch and display notifications
+  }
+}
+
+// Attach event listener after DOM is fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+  const bell = document.getElementById('notificationBell');
+  if (bell) {
+    bell.addEventListener('click', toggleNotificationDropdown);
+  } else {
+    console.warn("Notification bell element not found on the page.");
+  }
+});
+
+     
+    </script>
+</body>
+</html>

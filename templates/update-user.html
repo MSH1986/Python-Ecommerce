@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update</title>
+
+    <!-- add the link of Style.css -->
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='assets/style.css') }}">
+
+    <!-- add font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- add the Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+  <div class="containerAdd">
+        <p class="text-center text-secondary">
+          <i class="fa-solid fa-circle-info text-warning"></i>
+          Click the update Button when you are done
+        </p>
+        <form method="post">
+            <div class="form-group">
+              <label for="exampleInputName1">Name</label>
+              <input type="text" name="name" class="form-control" id="exampleInputName1" value="{{user.name}}">
+            </div>
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{user.email}}">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+
+            <!-- <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div> -->
+
+            
+            <div class="btns">
+                <button type="submit" class="btn btn-success">Update</button>
+                <a class="btn btn-danger" href="{{url_for('read_users')}}">Cancel</a>
+            </div>
+          </form>
+        
+    </div>
+</body>
+</html>

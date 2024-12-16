@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+
+    <!-- add the link of Style.css -->
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='assets/style.css') }}">
+
+     <!-- add font awesome -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" 
+     crossorigin="anonymous" referrerpolicy="no-referrer" />
+ 
+     <!-- add the Bootstrap -->
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
+     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+</head>
+<body>
+
+
+    <div class="containerAdd">
+        <div class="alert alert-danger w-25 text-center" role="alert">
+            <h4 class="alert-heading">Error!</h4>
+            <p>This User dose not exist or has no premission, the account must be confirmed!!</p>
+            <hr>
+            <p class="mb-0">check if you have entered a correct Email or the email was confirmed</p>
+        </div>
+    </div>
+
+</body>
+</html>
