@@ -4,7 +4,7 @@ Overview
 This repository contains the codebase for an Online Shop application. The project is developed using Python and follows the Model-View-Controller (MVC) architectural pattern. The application includes an admin dashboard to manage the shop's operations efficiently.
 
 Online Shop Features:
-User-friendly interface for browsing and purchasing products.
+User-friendly interface for browsing and purchasing products.\n
 Secure user authentication and authorization.
 Product categorization and search functionality.
 Shopping cart and order management.
