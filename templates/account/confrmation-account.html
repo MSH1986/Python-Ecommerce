@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Confirmation-code{% endblock %}
+
+{% block content %}
+
+  <!-- Display flash messages -->
+    <!-- Display flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert-container">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                        <span class="close"><i class="fa-regular fa-circle-xmark"></i></span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+
+<div class="confirmation-code-window">
+    <form method="post">
+        <p>We have sent Email with Confirmation-Code to this E-Mail : <strong>{{email}}</strong></p>
+        <h6>Please, Enter the confirmation-Code in the field below</h6>
+        <div class="pt-5 text-center d-flex align-items-center justify-content-center flex-column">
+            <input class="text-center input-confirm" type="number" name="confirm-code" placeholder="Enter the Confirmation-Code here">
+            <span class="msgError text-danger">The Code must be not longer than 6 digits</span>
+        </div>
+        <button type="submit" class="btn btn-success my-3">confirm</button>
+    </form>
+</div>
+
+<script>
+    const inputConfirm = document.querySelector('.input-confirm');
+    const msgError = document.querySelector('.msgError');
+    msgError.style.visibility = 'hidden'
+    inputConfirm.addEventListener('input', (e) => {
+        if(e.target.value.length > 6){
+            msgError.style.visibility = 'visible'
+        }else{
+            msgError.style.visibility = 'hidden'
+        }
+    })
+    
+  
+
+</script>
+
+{% endblock %}

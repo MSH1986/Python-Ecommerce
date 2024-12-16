@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Account{% endblock %}
+
+{% block content %}
+
+<p style="position: absolute; right: 62px; top: 16px;">
+    <strong class="fw-bold text-dark">{{ email }}</strong>
+    <i class="fa-solid fa-user mx-2 text-success"></i>
+</p>
+
+<div class="container text-center pt-5">
+    <form method="post">
+        <h1>Confirmation Process</h1>
+        <h4>We will send an E-Mail with Confirmation-Code to this User: <strong>{{email}}</strong></h4>
+        <h5>then Check your E-Mail Address to follow the instructions</h5>
+      
+        <button type="submit" class="btn btn-primary my-3">Send Code</button>
+        <a class="btn btn-danger my-3" href="{{url_for('display_products')}}">Cancel</a>
+    </form>
+</div>
+
+{% endblock %}

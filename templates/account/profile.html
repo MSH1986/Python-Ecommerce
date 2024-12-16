@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+
+<style>
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+            background: #63ad63;
+            border-left: 4px solid #333;
+        }
+
+        .profile-header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #333;
+        }
+
+        .profile-section {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #444;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .profile-item {
+            margin-bottom: 10px;
+        }
+
+        .profile-item label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .profile-item p {
+            margin: 0;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .profile-section {
+                padding: 15px;
+            }
+        }
+</style>
+
+<div class="container">
+    <div class="profile-header">
+        <h1>User Profile</h1>
+    </div>
+
+    <div class="profile-section">
+        <div class="section-title">Basic Information</div>
+        <div class="profile-item">
+            <label>Name:</label>
+            <p>{{name}}</p>
+        </div>
+        <div class="profile-item">
+            <label>Email:</label>
+            <p>{{email}}</p>
+        </div>
+        <div class="profile-item">
+            <label>Date of Birth:</label>
+            <p>January 1, 1990</p>
+        </div>
+        <div class="profile-item">
+            <label>Phone Number:</label>
+            <p>+1 234 567 890</p>
+        </div>
+    </div>
+
+    <div class="profile-section">
+        <div class="section-title">Shopping Information</div>
+        <div class="profile-item">
+            <label>Order History:</label>
+            <p><a href="/order-history">View Your Orders</a></p>
+        </div>
+        <div class="profile-item">
+            <label>Wishlist:</label>
+            <p><a href="/wishlist">View Your Wishlist</a></p>
+        </div>
+        <div class="profile-item">
+            <label>Rewards Points:</label>
+            <p>150 Points</p>
+        </div>
+    </div>
+    <div class="profile-section">
+        <div class="section-title">Account Information</div>
+        <div class="profile-item">
+            <label>Membership Type:</label>
+            <p>Premium Member</p>
+        </div>
+        <div class="profile-item">
+            <label>Last Login:</label>
+            <p>December 8, 2024, 10:00 AM</p>
+        </div>
+        <div class="profile-item">
+            <label>Two-Factor Authentication:</label>
+            <p>Enabled</p>
+        </div>
+    </div>
+
+    <div class="profile-section">
+        <div class="section-title">Address Information</div>
+        <div class="profile-item">
+            <label>Billing Address:</label>
+            <p>123 Main Street, Anytown, USA</p>
+        </div>
+        <div class="profile-item">
+            <label>Shipping Address:</label>
+            <p>456 Elm Street, Othertown, USA</p>
+        </div>
+    </div>
+
+    <div class="profile-section">
+        <div class="section-title">Settings and Security</div>
+        <div class="profile-item">
+            <label>Password:</label>
+            <p><a href="{{url_for('change_password')}}">Change Password</a></p>
+        </div>
+        <div class="profile-item">
+            <label>Notification Preferences:</label>
+            <p><a href="/notification-settings">Manage Notifications</a></p>
+        </div>
+        <div class="profile-item">
+            <label>Privacy Settings:</label>
+            <p><a href="/privacy-settings">Update Privacy Settings</a></p>
+        </div>
+    </div>
+</div>
+
+
+
+<a class="btn btn-danger my-3" href="{{url_for('display_products')}}">Cancel</a>
+{% endblock %}
