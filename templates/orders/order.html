@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+
+
+{% if orders|length == 0 %}
+     <p class="text-danger fw-bold m-auto empty-orders">The Orders Bag is empty <br>
+        <a class=" text-success" href="{{url_for('display_products')}}">Now Shopping</a>
+     </p>
+     
+{% endif %}
+
+
+<div class="container mt-3 mt-md-5">
+    {% if orders|length != 0 %}
+        <h2 class="text-charcoal hidden-sm-down text-center">Your Orders</h2>
+    {% endif %}
+
+    {% for order in orders %}
+    <div class="row">
+      <div class="col-12">
+        <div class="list-group mb-5">
+          <div class="list-group-item p-3 bg-snow text-dark" style="position: relative;">
+            <div class="row w-100 no-gutters">
+              <div class="col-6 col-md">
+                <h6 class="text-charcoal mb-0 w-100">Order ID</h6>
+                <h6 class="text-pebble mb-0 w-100 mb-2 mb-md-0 style-font">#{{ '%03d' % order['id']}}</h6>
+              </div>
+              <div class="col-6 col-md">
+                <h6 class="text-charcoal mb-0 w-100">Date</h6>
+                <p class="text-pebble mb-0 w-100 mb-2 mb-md-0 style-font">{{ order['order_date']}}</p>  
+              </div>
+              <div class="col-6 col-md">
+                <h6 class="text-charcoal mb-0 w-100">Articles</h6>
+                <p class="text-pebble mb-0 w-100 mb-2 mb-md-0 style-font">{{order_items[order['id']]|length}}</p>  
+              </div>
+
+              <div class="col-6 col-md"> 
+                <h6 class="text-charcoal mb-0 w-100">Total</h6>
+                {% set total_price = order['total_price'] %}
+                <p class="text-pebble mb-0 w-100 mb-2 mb-md-0 style-font">${{ total_price | float | round(2) }}</p>
+
+              </div>
+              <div class="col-6 col-md"> 
+                <h6 class="text-charcoal mb-0 w-100">Shipped To</h6>
+                <p class="text-pebble mb-0 w-100 mb-2 mb-md-0 style-font">{{ order['user_name']}}</p> 
+              </div>
+              <div class="col-12 col-md-3">
+                <button class="btn btn-success w-100 view-order" data-order-id="{{order['id']}}">View Order</button>
+              </div>
+            </div>
+            
+          </div>
+            {% for item in order_items[order['id']] %}
+            <div class="list-group-item p-3 order-list bg-white order-items-{{order['id']}}">
+              <div class="row no-gutters">
+                <div class="row no-gutters mt-3">
+                    <div class="col-3 col-md-1">
+                      <img class="img-fluid pr-3" src="../static/images/{{item['item_photo']}}" alt="">
+                    </div>
+                    <div class="col-9 col-md-8 pr-0 pr-md-3">
+                        <h6 class="text-charcoal mb-2 mb-md-1">
+                            <a href="{{url_for('product_details', product_id=item['product_id'])}}" class="text-success">{{ item['item_name'] }}</a>
+                        </h6>
+                        <ul class="list-unstyled text-pebble mb-2 small">
+                          
+                            <li class="">
+                            <b>Quantity:</b> {{ item['item_quantity']}}
+                            </li>
+                        </ul>
+                        <h6 class="text-charcoal text-left mb-0 mb-md-2"><b>${{ item['item_price'] }}</b></h6>
+                    </div>
+                    <div class="col-12 col-md-3 hidden-sm-down">
+                        <a href="{{url_for('add_to_cart', product_id=item['product_id'])}}" class="btn btn-secondary w-100 mb-2">Buy It Again</a>
+                        <a href="" class="btn btn-secondary w-100">Request a Return</a>
+                    </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+</div>
+
+
+
+
+<script>
+
+  // Hide all order items at the beginning
+  document.querySelectorAll('.lorder-list').forEach(item => {
+      item.style.display = 'none';
+  });
+
+  // Select all "View Order" buttons
+  const viewOrderButtons = document.querySelectorAll('.view-order');
+
+  // Loop through each button and add an event listener
+  viewOrderButtons.forEach(button => {
+      button.textContent = 'View Order';
+      const orderId = button.getAttribute('data-order-id'); // Assuming each button has a data-order-id attribute
+      const orderItems = document.querySelectorAll(`.order-items-${orderId}`); // Select the corresponding order items
+      
+      // Hide the related order items
+      orderItems.forEach(item => {
+              item.style.display = 'none';
+          });
+      button.addEventListener('click', (e) => {
+
+          if (button.textContent == 'View Order') {
+              // Show the related order items
+              orderItems.forEach(item => {
+                  item.style.display = 'block';
+              });
+              button.textContent = 'Hide Order';
+          } else {
+              // Hide the related order items
+              orderItems.forEach(item => {
+                  item.style.display = 'none';
+              });
+              button.textContent = 'View Order';
+          }
+      });
+  });
+
+</script>
+
+{% endblock %}
