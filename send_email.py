@@ -14,8 +14,8 @@ import os
 
 def send_email_register(user_name, user_email, confirmationCode):
     #email server settings
-    sender_email ="mahershalash86@gmail.com"
-    sender_password="zljj zrru wngk fxgm" # from gmail
+    sender_email ="example@gmail.com"
+    sender_password="password" # from gmail
     smtp_server="smtp.gmail.com"
     smtp_port= 587
 
